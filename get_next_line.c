@@ -6,7 +6,7 @@
 /*   By: isb3 <isb3@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:12:09 by adesille          #+#    #+#             */
-/*   Updated: 2023/11/26 18:09:08 by isb3             ###   ########.fr       */
+/*   Updated: 2023/11/26 22:14:34 by isb3             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*strchr_n_split(char *stock_buff)
 	while (stock_buff[i] != '\n' && stock_buff[i] != '\0')
 		i++;
 	if (stock_buff[i] == '\0')
-		return (ft_strdup(stock_buff, 0));
+		return (ft_strdup(stock_buff));
 	line = malloc(i + 2);
 	if (!line)
 		return (NULL);
@@ -39,29 +39,31 @@ static char	*strchr_n_split(char *stock_buff)
 	return (line);
 }
 
-static char	*get_line(int fd, char *stock_buff)
+static char	*get_line(int fd, char *stock_buff, char *read_buff)
 {
-	char	read_buff[BUFFER_SIZE + 1];
 	int		bytes_read;
 
-	if (read(fd, 0, 0))
-		return (NULL);
 	bytes_read = 1;
-	read_buff[0] = '\0';
 	while (!ft_strchr(read_buff, '\n') && bytes_read > 0)
 	{
 		bytes_read = read(fd, read_buff, BUFFER_SIZE);
 		if (bytes_read < 0)
+		{
+			free(read_buff);
+			free(stock_buff);
 			return (NULL);
+		}
 		read_buff[bytes_read] = '\0';
 		if (bytes_read > 0)
 			stock_buff = ft_strjoin(stock_buff, read_buff);
 		if (!ft_strlen(stock_buff))
 		{
+			free(read_buff);
 			free(stock_buff);
 			return (NULL);
 		}
 	}
+	free(read_buff);
 	return (stock_buff);
 }
 
@@ -71,21 +73,22 @@ char	*get_next_line(int fd)
 	char		*line;
 	int			linelen;
 	int			i;
+	char		*read_buff;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	i = 0;
-	stock_buff = get_line(fd, stock_buff);
+	read_buff = malloc(BUFFER_SIZE + 1);
+	if(!read_buff)
+		return (NULL);
+	read_buff[0] = '\0';
+	stock_buff = get_line(fd, stock_buff, read_buff);
 	if (!stock_buff)
 		return (NULL);
 	line = strchr_n_split(stock_buff);
 	linelen = ft_strlen(line);
 	while (stock_buff[linelen])
-	{
-		stock_buff[i] = stock_buff[linelen];
-		i++;
-		linelen++;
-	}
+		stock_buff[i++] = stock_buff[linelen++];
 	stock_buff[i] = '\0';
 	return (line);
 }
@@ -95,7 +98,7 @@ char	*get_next_line(int fd)
 // 	char	*line;
 // 	int		fd;
 
-// 	fd = open("alternate_line_nl_with_nl", O_RDONLY);
+// 	fd = open("read_error.txt", O_RDONLY);
 // 	if (!fd)
 // 	{
 // 		perror("Error opening file");

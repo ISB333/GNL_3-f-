@@ -6,7 +6,7 @@
 /*   By: isb3 <isb3@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 14:11:08 by adesille          #+#    #+#             */
-/*   Updated: 2023/11/26 17:02:37 by isb3             ###   ########.fr       */
+/*   Updated: 2023/11/26 22:05:46 by isb3             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ size_t	ft_strlcpy(char *dst, char *src, size_t size)
 	return (src_len);
 }
 
-char	*ft_strdup(char *s, int tofree)
+char	*ft_strdup(char *s)
 {
 	char	*str;
 	int		size;
@@ -55,8 +55,6 @@ char	*ft_strdup(char *s, int tofree)
 		return (NULL);
 	}
 	ft_strlcpy(str, s, size);
-	if (tofree == 1)
-		free((void *)s);
 	return (str);
 }
 

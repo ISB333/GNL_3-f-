@@ -6,7 +6,7 @@
 /*   By: isb3 <isb3@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:12:09 by adesille          #+#    #+#             */
-/*   Updated: 2023/11/26 22:14:34 by isb3             ###   ########.fr       */
+/*   Updated: 2023/11/26 22:17:50 by isb3             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	i = 0;
 	read_buff = malloc(BUFFER_SIZE + 1);
-	if(!read_buff)
+	if (!read_buff)
 		return (NULL);
 	read_buff[0] = '\0';
 	stock_buff = get_line(fd, stock_buff, read_buff);

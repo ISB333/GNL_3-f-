@@ -6,7 +6,7 @@
 /*   By: isb3 <isb3@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:12:09 by adesille          #+#    #+#             */
-/*   Updated: 2023/11/26 18:01:15 by isb3             ###   ########.fr       */
+/*   Updated: 2023/11/26 18:09:08 by isb3             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,7 @@ static char	*get_line(int fd, char *stock_buff)
 	{
 		bytes_read = read(fd, read_buff, BUFFER_SIZE);
 		if (bytes_read < 0)
-		{
-			free(stock_buff);
 			return (NULL);
-		}
 		read_buff[bytes_read] = '\0';
 		if (bytes_read > 0)
 			stock_buff = ft_strjoin(stock_buff, read_buff);

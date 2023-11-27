@@ -6,7 +6,7 @@
 /*   By: isb3 <isb3@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:12:09 by adesille          #+#    #+#             */
-/*   Updated: 2023/11/26 22:17:50 by isb3             ###   ########.fr       */
+/*   Updated: 2023/11/27 13:07:03 by isb3             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ static char	*get_line(int fd, char *stock_buff, char *read_buff)
 char	*get_next_line(int fd)
 {
 	static char	*stock_buff;
+	char		*read_buff;
 	char		*line;
 	int			linelen;
 	int			i;
-	char		*read_buff;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -92,22 +92,3 @@ char	*get_next_line(int fd)
 	stock_buff[i] = '\0';
 	return (line);
 }
-
-// int main(void)
-// {
-// 	char	*line;
-// 	int		fd;
-
-// 	fd = open("read_error.txt", O_RDONLY);
-// 	if (!fd)
-// 	{
-// 		perror("Error opening file");
-// 		return (EXIT_FAILURE);
-// 	}
-// 	while ((line = get_next_line(fd)) != NULL)
-// 	{
-// 		printf("Read line: %s\n", line);
-// 		free(line);
-// 	}
-// 	return (0);
-// }

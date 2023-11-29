@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adesille <adesille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:12:09 by adesille          #+#    #+#             */
-/*   Updated: 2023/11/29 16:44:46 by adesille         ###   ########.fr       */
+/*   Updated: 2023/11/29 16:33:23 by adesille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	*get_line(int fd, char *stock_buff, char *read_buff)
 
 char	*get_next_line(int fd)
 {
-	static char	*stock_buff;
+	static char	*stock_buff[1024];
 	char		*read_buff;
 	char		*line;
 	int			linelen;
@@ -82,13 +82,13 @@ char	*get_next_line(int fd)
 	if (!read_buff)
 		return (NULL);
 	read_buff[0] = '\0';
-	stock_buff = get_line(fd, stock_buff, read_buff);
-	if (!stock_buff)
+	stock_buff[fd] = get_line(fd, stock_buff[fd], read_buff);
+	if (!stock_buff[fd])
 		return (NULL);
-	line = strchr_n_split(stock_buff);
+	line = strchr_n_split(stock_buff[fd]);
 	linelen = ft_strlen(line);
-	while (stock_buff[linelen])
-		stock_buff[i++] = stock_buff[linelen++];
-	stock_buff[i] = '\0';
+	while (stock_buff[fd][linelen])
+		stock_buff[fd][i++] = stock_buff[fd][linelen++];
+	stock_buff[fd][i] = '\0';
 	return (line);
 }

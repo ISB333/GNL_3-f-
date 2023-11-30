@@ -6,7 +6,7 @@
 /*   By: adesille <adesille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:12:09 by adesille          #+#    #+#             */
-/*   Updated: 2023/11/29 16:44:46 by adesille         ###   ########.fr       */
+/*   Updated: 2023/11/30 11:21:30 by adesille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static char	*strchr_n_split(char *stock_buff)
 	int		i;
 
 	i = 0;
-	while (stock_buff[i] != '\n' && stock_buff[i] != '\0')
-		i++;
+	while (stock_buff[i] != '\0' && stock_buff[i++] != '\n')
+		;
 	if (stock_buff[i] == '\0')
 		return (ft_strdup(stock_buff));
-	line = malloc(i + 2);
+	line = malloc(i + 1);
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -44,24 +44,16 @@ static char	*get_line(int fd, char *stock_buff, char *read_buff)
 	int		bytes_read;
 
 	bytes_read = 1;
-	while (!ft_strchr(read_buff, '\n') && bytes_read > 0)
+	while (!ft_strchr(read_buff, '\n') && bytes_read != 0)
 	{
 		bytes_read = read(fd, read_buff, BUFFER_SIZE);
 		if (bytes_read < 0)
-		{
-			free(read_buff);
-			free(stock_buff);
-			return (NULL);
-		}
+			return (free(read_buff), free(stock_buff), NULL);
 		read_buff[bytes_read] = '\0';
-		if (bytes_read > 0)
+		if (bytes_read)
 			stock_buff = ft_strjoin(stock_buff, read_buff);
 		if (!ft_strlen(stock_buff))
-		{
-			free(read_buff);
-			free(stock_buff);
-			return (NULL);
-		}
+			return (free(read_buff), free(stock_buff), NULL);
 	}
 	free(read_buff);
 	return (stock_buff);

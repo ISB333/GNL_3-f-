@@ -6,7 +6,7 @@
 /*   By: adesille <adesille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:12:09 by adesille          #+#    #+#             */
-/*   Updated: 2023/11/29 19:16:13 by adesille         ###   ########.fr       */
+/*   Updated: 2023/11/30 11:55:53 by adesille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,12 @@ static char	*get_line(int fd, char *stock_buff, char *read_buff)
 	{
 		bytes_read = read(fd, read_buff, BUFFER_SIZE);
 		if (bytes_read < 0)
-		{
-			free(read_buff);
-			free(stock_buff);
-			return (NULL);
-		}
+			return (free(read_buff), free(stock_buff), NULL);
 		read_buff[bytes_read] = '\0';
 		if (bytes_read > 0)
 			stock_buff = ft_strjoin(stock_buff, read_buff);
 		if (!ft_strlen(stock_buff))
-		{
-			free(read_buff);
-			free(stock_buff);
-			return (NULL);
-		}
+			return (free(read_buff), free(stock_buff), NULL);
 	}
 	free(read_buff);
 	return (stock_buff);
@@ -75,7 +67,7 @@ char	*get_next_line(int fd)
 	int			linelen;
 	int			i;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0) 
 		return (NULL);
 	i = 0;
 	read_buff = malloc(BUFFER_SIZE + 1);
